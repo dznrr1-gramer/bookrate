@@ -1,0 +1,9 @@
+{
+  "extends": "@bookrate/config/tsconfig/base.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "prisma/**/*.ts",
+    "prisma.config.ts"
+  ]
+}

@@ -1,0 +1,198 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ReadingStatus {
+  WANT_TO_READ
+  CURRENTLY_READING
+  READ
+}
+
+model User {
+  id            String        @id @default(cuid())
+  name          String?
+  email         String?       @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  bio           String?       @db.Text
+  role          Role          @default(USER)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  reviews       Review[]
+  reviewLikes   ReviewLike[]
+  favorites     Favorite[]
+  readingList   ReadingList[]
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+  oauth_token_secret String? @db.Text
+  oauth_token        String? @db.Text
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Book {
+  id                  String        @id @default(cuid())
+  title               String
+  slug                String        @unique
+  description         String?       @db.Text
+  isbn                String?       @unique
+  publishedYear       Int?
+  pageCount           Int?
+  language            String?
+  coverImage          String?
+  googleBooksVolumeId String?       @unique
+  publisherId         String?
+  publisher           Publisher?    @relation(fields: [publisherId], references: [id], onDelete: SetNull)
+  authors             Author[]
+  categories          Category[]
+  genres              Genre[]
+  reviews             Review[]
+  favorites           Favorite[]
+  readingList         ReadingList[]
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  @@index([title])
+  @@index([publisherId])
+}
+
+model Author {
+  id        String   @id @default(cuid())
+  name      String
+  bio       String?  @db.Text
+  books     Book[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+}
+
+model Publisher {
+  id        String   @id @default(cuid())
+  name      String
+  books     Book[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?  @db.Text
+  books       Book[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([name])
+}
+
+model Genre {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?  @db.Text
+  books       Book[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([name])
+}
+
+model Review {
+  id        String       @id @default(cuid())
+  userId    String
+  bookId    String
+  rating    Int
+  content   String       @db.Text
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book      Book         @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  likes     ReviewLike[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@unique([userId, bookId])
+  @@index([bookId, createdAt])
+  @@index([bookId, rating])
+  @@index([userId, createdAt])
+}
+
+model ReviewLike {
+  id        String   @id @default(cuid())
+  userId    String
+  reviewId  String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, reviewId])
+  @@index([reviewId])
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  bookId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, bookId])
+  @@index([bookId])
+  @@index([userId, createdAt])
+}
+
+model ReadingList {
+  id        String        @id @default(cuid())
+  userId    String
+  bookId    String
+  status    ReadingStatus @default(WANT_TO_READ)
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book      Book          @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@unique([userId, bookId])
+  @@index([bookId])
+  @@index([userId, status])
+}
