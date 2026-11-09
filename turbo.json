@@ -1,0 +1,39 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "envMode": "strict",
+  "globalPassThroughEnv": [
+    "API_PORT",
+    "DATABASE_URL",
+    "GOOGLE_BOOKS_API_KEY",
+    "NEXT_PUBLIC_API_URL",
+    "WEB_ORIGIN"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:seed": {
+      "cache": false,
+      "passThroughEnv": ["SEED_ADMIN_EMAIL", "SEED_ADMIN_PASSWORD"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "inputs": ["$TURBO_DEFAULT$"]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"],
+      "inputs": ["$TURBO_DEFAULT$"]
+    },
+    "test": {
+      "dependsOn": ["^test"],
+      "inputs": ["$TURBO_DEFAULT$"]
+    }
+  }
+}
