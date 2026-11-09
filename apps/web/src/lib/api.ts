@@ -1,4 +1,8 @@
-import type { CatalogData, HomepageData } from "@bookrate/types";
+import type {
+  BookDetailData,
+  CatalogData,
+  HomepageData,
+} from "@bookrate/types";
 import type { LoginInput, RegisterInput } from "@bookrate/validators";
 
 const defaultApiBaseUrl = "http://localhost:4000/api/v1";
@@ -98,6 +102,11 @@ export const apiClient = {
     apiRequest<HomepageData>("homepage", { signal }),
   catalog: (query: URLSearchParams, signal?: AbortSignal) =>
     apiRequest<CatalogData>(`books?${query.toString()}`, { signal }),
+  bookDetail: (slug: string, query: URLSearchParams, signal?: AbortSignal) =>
+    apiRequest<BookDetailData>(
+      `books/${encodeURIComponent(slug)}?${query.toString()}`,
+      { signal },
+    ),
   auth: {
     register: (input: RegisterInput) =>
       apiRequest<{ user: AuthUser }>(

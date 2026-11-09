@@ -62,6 +62,36 @@ describe("web API client", () => {
         genres: [],
         pagination: { page: 2, pageSize: 20, total: 0, totalPages: 0 },
       });
+
+      test("encodes book slugs and forwards review pagination", async () => {
+        process.env.NEXT_PUBLIC_API_URL = "http://localhost:4000/api/v1";
+        globalThis.fetch = async (input, init) => {
+          expect(String(input)).toBe(
+            "http://localhost:4000/api/v1/books/laut-bercerita?sort=rating&page=2",
+          );
+          expect(init.credentials).toBe("omit");
+          return Response.json({
+            book: {
+              id: "book-1",
+              slug: "laut-bercerita",
+              title: "Laut Bercerita",
+            },
+            reviews: [],
+            relatedBooks: [],
+            pagination: { page: 2, pageSize: 20, total: 0, totalPages: 0 },
+          });
+        };
+
+        await expect(
+          apiClient.bookDetail(
+            "laut-bercerita",
+            new URLSearchParams("sort=rating&page=2"),
+          ),
+        ).resolves.toMatchObject({
+          book: { slug: "laut-bercerita" },
+          pagination: { page: 2 },
+        });
+      });
     };
 
     await expect(

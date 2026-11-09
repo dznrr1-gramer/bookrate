@@ -48,9 +48,10 @@ describe("BookRate API bootstrap", () => {
     expect(openApi.paths["/api/v1/health"]).toBeDefined();
     expect(openApi.paths["/api/v1/homepage"]).toBeDefined();
     expect(openApi.paths["/api/v1/books"]).toBeDefined();
+    expect(openApi.paths["/api/v1/books/{slug}"]).toBeDefined();
   });
 
-  test("rejects invalid catalog query parameters before repository access", async () => {
+  test("rejects invalid catalog and book-detail parameters before repository access", async () => {
     await startApp();
 
     const invalidRating = await fetch(`${baseUrl}/books?minRating=6`);
@@ -66,6 +67,14 @@ describe("BookRate API bootstrap", () => {
       error: { code: string };
     };
     expect(filterPayload.error.code).toBe("VALIDATION_FAILED");
+
+    const invalidSlug = await fetch(`${baseUrl}/books/INVALID`);
+    expect(invalidSlug.status).toBe(400);
+
+    const invalidReviewPage = await fetch(
+      `${baseUrl}/books/laut-bercerita?page=0`,
+    );
+    expect(invalidReviewPage.status).toBe(400);
   });
 
   test("validates request bodies and returns a consistent error envelope", async () => {

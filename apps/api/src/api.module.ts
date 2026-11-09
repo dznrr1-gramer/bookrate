@@ -16,6 +16,12 @@ import {
   PrismaCatalogRepository,
 } from "./catalog/catalog.repository";
 import { CatalogService } from "./catalog/catalog.service";
+import { BookDetailController } from "./book-detail/book-detail.controller";
+import {
+  BOOK_DETAIL_REPOSITORY,
+  PrismaBookDetailRepository,
+} from "./book-detail/book-detail.repository";
+import { BookDetailService } from "./book-detail/book-detail.service";
 
 @Module({})
 export class ApiModule {
@@ -37,6 +43,7 @@ export class ApiModule {
         HealthController,
         HomepageController,
         CatalogController,
+        BookDetailController,
         ...(!options.isProduction ? [ValidationController] : []),
       ],
       providers: [
@@ -46,8 +53,13 @@ export class ApiModule {
           useClass: PrismaHomepageRepository,
         },
         { provide: CATALOG_REPOSITORY, useClass: PrismaCatalogRepository },
+        {
+          provide: BOOK_DETAIL_REPOSITORY,
+          useClass: PrismaBookDetailRepository,
+        },
         HomepageService,
         CatalogService,
+        BookDetailService,
       ],
     };
   }

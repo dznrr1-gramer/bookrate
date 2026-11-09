@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import type { CatalogData, HomepageBook } from "@bookrate/types";
 import { Button, Feedback, Rating, SiteFooter, SiteHeader } from "@bookrate/ui";
 import { apiClient } from "../../lib/api";
@@ -72,7 +73,7 @@ function CatalogBookCard({ book }: { book: HomepageBook }) {
 
   return (
     <article className="min-w-0">
-      <a
+      <Link
         aria-label={`Lihat detail buku ${book.title}`}
         className="ui-focus-ring relative block rounded-xl"
         href={`/books/${encodeURIComponent(book.slug)}`}
@@ -92,14 +93,14 @@ function CatalogBookCard({ book }: { book: HomepageBook }) {
             {book.authors.join(", ") || "Penulis tidak diketahui"}
           </span>
         </div>
-      </a>
+      </Link>
       <div className="mt-3 flex items-start justify-between gap-2">
-        <a
+        <Link
           className="ui-focus-ring min-w-0 truncate rounded-sm text-sm font-semibold text-ink hover:text-forest"
           href={`/books/${encodeURIComponent(book.slug)}`}
         >
           {book.title}
-        </a>
+        </Link>
         {book.rating !== null ? (
           <Rating value={book.rating} reviewCount={book.reviewCount} />
         ) : null}
@@ -308,12 +309,12 @@ export default function CatalogClient({
           </label>
           <div className="flex items-end gap-3 sm:col-span-2 lg:col-span-4">
             <Button type="submit">Terapkan filter</Button>
-            <a
+            <Link
               className="ui-focus-ring rounded-full px-4 py-3 text-sm font-semibold text-forest hover:bg-surface-muted"
               href="/books"
             >
               Hapus filter
-            </a>
+            </Link>
           </div>
         </form>
 
@@ -362,12 +363,12 @@ export default function CatalogClient({
                   title="Halaman tidak tersedia"
                 />
                 <div className="mt-4 text-center">
-                  <a
+                  <Link
                     className="ui-focus-ring rounded-full bg-forest px-5 py-3 text-sm font-semibold text-white hover:bg-forest-dark"
                     href={pageHref(initialQuery, totalPages)}
                   >
                     Ke halaman terakhir
-                  </a>
+                  </Link>
                 </div>
               </div>
             ) : (
@@ -385,12 +386,12 @@ export default function CatalogClient({
                 className="mt-10 flex items-center justify-center gap-4"
               >
                 {currentPage > 1 ? (
-                  <a
+                  <Link
                     className="ui-focus-ring rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold text-ink hover:border-sage"
                     href={pageHref(initialQuery, currentPage - 1)}
                   >
                     Sebelumnya
-                  </a>
+                  </Link>
                 ) : (
                   <span
                     aria-disabled="true"
@@ -403,12 +404,12 @@ export default function CatalogClient({
                   {currentPage} / {totalPages}
                 </span>
                 {currentPage < totalPages ? (
-                  <a
+                  <Link
                     className="ui-focus-ring rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold text-ink hover:border-sage"
                     href={pageHref(initialQuery, currentPage + 1)}
                   >
                     Berikutnya
-                  </a>
+                  </Link>
                 ) : (
                   <span
                     aria-disabled="true"

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const emailSchema = z.string().trim().toLowerCase().email().max(254);
 const nameSchema = z.string().trim().min(1).max(80);
-const slugSchema = z
+export const slugSchema = z
   .string()
   .trim()
   .min(1)

@@ -59,3 +59,45 @@ export interface CatalogData {
     totalPages: number;
   };
 }
+
+export interface BookDetailTaxonomy {
+  name: string;
+  slug: string;
+}
+
+export interface BookDetailReview {
+  id: string;
+  rating: number;
+  content: string;
+  createdAt: string;
+  readerName: string;
+  likeCount: number;
+}
+
+export interface BookDetailData {
+  book: {
+    id: string;
+    slug: string;
+    title: string;
+    description: string | null;
+    isbn: string | null;
+    publishedYear: number | null;
+    pageCount: number | null;
+    language: string | null;
+    coverImage: string | null;
+    authors: string[];
+    publisher: string | null;
+    categories: BookDetailTaxonomy[];
+    genres: BookDetailTaxonomy[];
+    rating: number | null;
+    reviewCount: number;
+  };
+  reviews: BookDetailReview[];
+  relatedBooks: HomepageBook[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    total: number;
+    totalPages: number;
+  };
+}
