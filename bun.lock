@@ -16,6 +16,7 @@
       "dependencies": {
         "@bookrate/config": "workspace:*",
         "@bookrate/database": "workspace:*",
+        "@bookrate/types": "workspace:*",
         "@bookrate/validators": "workspace:*",
         "@nestjs/common": "^11.1.6",
         "@nestjs/core": "^11.1.6",

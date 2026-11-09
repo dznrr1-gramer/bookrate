@@ -15,3 +15,12 @@
 - Guest dapat menggunakan halaman responsif.
 
 **Verifikasi:** Uji render dengan seed data dan tanpa data; cek tautan serta responsivitas.
+
+## Status implementasi
+
+- API menyediakan `GET /api/v1/homepage` yang mengambil pilihan populer, rating tertinggi, buku terbaru, kategori/genre, ulasan terbaru, dan statistik dari PostgreSQL melalui Prisma.
+- Homepage web mengambil data melalui API client; loading, kegagalan API dengan tombol retry, dan hasil kosong ditampilkan secara eksplisit. Rekomendasi Guest memakai daftar populer dan menjelaskan bahwa rekomendasi personal memerlukan aktivitas pengguna.
+- Search mengirim query sebagai `/?q=...#katalog` dan mempertahankannya pada URL/input. Kartu buku dan kategori menautkan ke `/books` atau `/books/:slug`; halaman katalog dan detailnya dikerjakan pada Task 19–20.
+- API diuji terhadap PostgreSQL lokal berisi seed data: 5 buku, 2 pembaca, 3 ulasan. Verifikasi browser menunjukkan data homepage tampil dan state tanpa data tampil saat API mengembalikan koleksi kosong.
+- Verifikasi: 16 test API dan 6 test web lulus; lint, typecheck, production build monorepo, serta Prettier check untuk file task ini lulus. Uji browser pada 390 px dan 1365 px tidak menunjukkan horizontal overflow; query `Laut` tersimpan di URL dan menghasilkan 1 kartu pada katalog homepage.
+- **Masih berlanjut:** target navigasi katalog dan detail belum tersedia sampai Task 19–20; Task 18 baru dapat dinyatakan selesai setelah rute tersebut aktif dan pencarian katalog diuji end-to-end.

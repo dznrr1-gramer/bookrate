@@ -46,6 +46,7 @@ describe("BookRate API bootstrap", () => {
     };
     expect(openApi.openapi).toStartWith("3.");
     expect(openApi.paths["/api/v1/health"]).toBeDefined();
+    expect(openApi.paths["/api/v1/homepage"]).toBeDefined();
   });
 
   test("validates request bodies and returns a consistent error envelope", async () => {

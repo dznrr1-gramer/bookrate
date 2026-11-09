@@ -25,6 +25,30 @@ describe("web API client", () => {
     expect(await apiClient.health()).toEqual({ status: "ok" });
   });
 
+  test("loads public homepage data without ambient credentials", async () => {
+    process.env.NEXT_PUBLIC_API_URL = "http://localhost:4000/api/v1";
+    globalThis.fetch = async (input, init) => {
+      expect(String(input)).toBe("http://localhost:4000/api/v1/homepage");
+      expect(init.credentials).toBe("omit");
+      return Response.json({
+        featuredBook: null,
+        popularBooks: [],
+        highestRatedBooks: [],
+        recentlyAddedBooks: [],
+        recommendedBooks: [],
+        categories: [],
+        genres: [],
+        recentReviews: [],
+        stats: { books: 0, readers: 0, reviews: 0 },
+      });
+    };
+
+    await expect(apiClient.homepage()).resolves.toMatchObject({
+      featuredBook: null,
+      stats: { books: 0 },
+    });
+  });
+
   test("includes browser cookies only for explicit authentication requests", async () => {
     process.env.NEXT_PUBLIC_API_URL = "http://localhost:4000/api/v1";
     globalThis.fetch = async (input, init) => {

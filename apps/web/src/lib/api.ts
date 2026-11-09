@@ -1,3 +1,4 @@
+import type { HomepageData } from "@bookrate/types";
 import type { LoginInput, RegisterInput } from "@bookrate/validators";
 
 const defaultApiBaseUrl = "http://localhost:4000/api/v1";
@@ -93,6 +94,8 @@ export async function apiRequest<T>(
 
 export const apiClient = {
   health: () => apiRequest<{ status: "ok" }>("health"),
+  homepage: (signal?: AbortSignal) =>
+    apiRequest<HomepageData>("homepage", { signal }),
   auth: {
     register: (input: RegisterInput) =>
       apiRequest<{ user: AuthUser }>(
