@@ -10,6 +10,12 @@ import {
   PrismaHomepageRepository,
 } from "./homepage/homepage.repository";
 import { HomepageService } from "./homepage/homepage.service";
+import { CatalogController } from "./catalog/catalog.controller";
+import {
+  CATALOG_REPOSITORY,
+  PrismaCatalogRepository,
+} from "./catalog/catalog.repository";
+import { CatalogService } from "./catalog/catalog.service";
 
 @Module({})
 export class ApiModule {
@@ -30,6 +36,7 @@ export class ApiModule {
       controllers: [
         HealthController,
         HomepageController,
+        CatalogController,
         ...(!options.isProduction ? [ValidationController] : []),
       ],
       providers: [
@@ -38,7 +45,9 @@ export class ApiModule {
           provide: HOMEPAGE_REPOSITORY,
           useClass: PrismaHomepageRepository,
         },
+        { provide: CATALOG_REPOSITORY, useClass: PrismaCatalogRepository },
         HomepageService,
+        CatalogService,
       ],
     };
   }

@@ -263,7 +263,7 @@ export default function Home() {
               ulasanmu, dan simpan semua perjalanan membaca di satu tempat.
             </p>
             <form
-              action="/#katalog"
+              action="/books"
               className="mt-8 flex max-w-lg flex-col gap-3 sm:flex-row"
               method="get"
             >
@@ -272,7 +272,7 @@ export default function Home() {
                 autoComplete="off"
                 id="homepage-search"
                 label="Cari judul, penulis, atau ISBN"
-                name="q"
+                name="search"
                 onChange={(event) => setQueryOverride(event.target.value)}
                 placeholder="Cari judul, penulis, atau genre..."
                 type="search"

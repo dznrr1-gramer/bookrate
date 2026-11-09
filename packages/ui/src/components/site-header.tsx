@@ -1,9 +1,9 @@
 import { BookOpen, Menu } from "lucide-react";
 
 const navigation = [
-  { href: "#katalog", label: "Jelajahi" },
-  { href: "#pilihan", label: "Pilihan pembaca" },
-  { href: "#tentang", label: "Tentang" },
+  { href: "/books", label: "Jelajahi" },
+  { href: "/#pilihan", label: "Pilihan pembaca" },
+  { href: "/#tentang", label: "Tentang" },
 ];
 
 export function SiteHeader() {

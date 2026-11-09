@@ -49,6 +49,28 @@ describe("web API client", () => {
     });
   });
 
+  test("sends catalog filters as query parameters without ambient credentials", async () => {
+    process.env.NEXT_PUBLIC_API_URL = "http://localhost:4000/api/v1";
+    globalThis.fetch = async (input, init) => {
+      expect(String(input)).toBe(
+        "http://localhost:4000/api/v1/books?search=Laut&category=fiksi&minRating=4&page=2",
+      );
+      expect(init.credentials).toBe("omit");
+      return Response.json({
+        items: [],
+        categories: [],
+        genres: [],
+        pagination: { page: 2, pageSize: 20, total: 0, totalPages: 0 },
+      });
+    };
+
+    await expect(
+      apiClient.catalog(
+        new URLSearchParams("search=Laut&category=fiksi&minRating=4&page=2"),
+      ),
+    ).resolves.toMatchObject({ pagination: { page: 2, total: 0 } });
+  });
+
   test("includes browser cookies only for explicit authentication requests", async () => {
     process.env.NEXT_PUBLIC_API_URL = "http://localhost:4000/api/v1";
     globalThis.fetch = async (input, init) => {

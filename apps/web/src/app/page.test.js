@@ -11,8 +11,8 @@ describe("BookRate homepage", () => {
     expect(markup).toContain("Setiap buku punya");
     expect(markup).toContain("Cari bacaan yang pas.");
     expect(markup).toContain('aria-label="Cari buku"');
-    expect(markup).toContain('action="/#katalog"');
-    expect(markup).toContain('name="q"');
+    expect(markup).toContain('action="/books"');
+    expect(markup).toContain('name="search"');
     expect(markup).toContain("Memuat katalog...");
   });
 });

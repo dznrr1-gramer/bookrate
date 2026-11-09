@@ -47,3 +47,15 @@ export interface HomepageData {
     reviews: number;
   };
 }
+
+export interface CatalogData {
+  items: HomepageBook[];
+  categories: HomepageTaxonomy[];
+  genres: HomepageTaxonomy[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    total: number;
+    totalPages: number;
+  };
+}
