@@ -74,7 +74,7 @@ describe("RolesGuard", () => {
     const baseUrl = await startApp();
 
     expect((await fetch(`${baseUrl}/public`)).status).toBe(200);
-    expect((await fetch(`${baseUrl}/admin`)).status).toBe(403);
+    expect((await fetch(`${baseUrl}/admin`)).status).toBe(401);
     expect(
       (
         await fetch(`${baseUrl}/admin`, {
@@ -86,6 +86,13 @@ describe("RolesGuard", () => {
       (
         await fetch(`${baseUrl}/admin`, {
           headers: { "x-test-role": "ADMIN" },
+        })
+      ).status,
+    ).toBe(200);
+    expect(
+      (
+        await fetch(`${baseUrl}/user`, {
+          headers: { "x-test-role": "USER" },
         })
       ).status,
     ).toBe(200);
