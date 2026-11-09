@@ -14,9 +14,16 @@
     "react": ">=19"
   },
   "scripts": {
+    "test": "bun test",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "devDependencies": {
-    "@bookrate/config": "workspace:*"
+    "@bookrate/config": "workspace:*",
+    "@types/react": "^19",
+    "@types/react-dom": "^19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "dependencies": {
+    "lucide-react": "^1.70.0"
   }
 }

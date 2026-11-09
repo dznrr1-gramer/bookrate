@@ -1,17 +1,66 @@
 @import "tailwindcss";
+@source "../../../../packages/ui/src";
 
 :root {
-  --background: #fafaf9;
-  --foreground: #1c1917;
+  color-scheme: light;
+  --background: #faf9f6;
+  --surface: #ffffff;
+  --surface-muted: #f3f2ed;
+  --foreground: #24241f;
+  --muted: #716f67;
+  --forest: #214c3b;
+  --forest-dark: #173a2c;
+  --sage: #9ab09d;
+  --border: #e7e5df;
+  --danger: #b42318;
+  --star: #936c22;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-page: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-ink: var(--foreground);
+  --color-muted: var(--muted);
+  --color-forest: var(--forest);
+  --color-forest-dark: var(--forest-dark);
+  --color-sage: var(--sage);
+  --color-border: var(--border);
+  --color-danger: var(--danger);
+  --color-star: var(--star);
   --font-sans: Arial, Helvetica, sans-serif;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+::selection {
+  background: #d7e3d8;
+  color: #173a2c;
+}
+
+.ui-focus-ring:focus-visible {
+  outline: 3px solid #718f78;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
